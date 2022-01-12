@@ -158,4 +158,18 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 
+	@Override
+	public BoardDTO getLeftBoard(int bno) {
+
+		return this.sqlSession.selectOne("review_left", bno);
+	}
+
+
+	@Override
+	public BoardDTO getRightBoard(int bno) {
+
+		return this.sqlSession.selectOne("review_right", bno);
+	}
+
+
 }

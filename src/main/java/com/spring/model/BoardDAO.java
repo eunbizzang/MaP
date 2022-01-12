@@ -49,5 +49,9 @@ public interface BoardDAO {
 	void minusLike(int no);
 
 	int replyUpdate(ReviewReplyDTO dto);
+
+	BoardDTO getLeftBoard(int bno);
+
+	BoardDTO getRightBoard(int bno);
 	
 }

@@ -35,7 +35,20 @@
 <style>
 body {
 	font-family: 'Do Hyeon', sans-serif;
+	height:100%;
 }
+#body-wrapper {
+    min-height: 100%;
+    position: relative;
+}
+
+#body-content {
+    margin-top: 0px;
+    padding-bottom: 1800px; /* footer의 높이 */
+    position: relative;
+    margin-left: 400px;
+}
+
 .img {
     width: 600px;
 	height: 600px;
@@ -56,13 +69,29 @@ textarea {
 }
 .leftboard {
 	width: 400px; 
+	height:480px;
 	text-align: center;/*중앙정렬*/
-	margin-top : 100px;
+	margin-top : 160px;
 	margin-bottom : 10px;
 	margin-left : auto;
 	margin-right : auto;
 	padding:20px;
 	float:left;
+	border-radius:5px;
+	border: 1px solid lightgrey;
+}
+.rightboard {
+	width: 400px; 
+	height:480px; 
+	text-align: center;/*중앙정렬*/
+	margin-top : 160px;
+	margin-bottom : 10px;
+	margin-left : auto;
+	margin-right : auto;
+	padding:20px;
+	float:left;
+	border-radius:5px;
+	border: 1px solid lightgrey;
 }
 .width {
   text-align:left;
@@ -178,28 +207,67 @@ button {
   margin-bottom: 10px;
   margin-left: 20px;
 }
+#keyword {
+  width:150px;
+  height:30px;
+  font-size:16px;
+}
+#keyworddiv {
+  text-align:center;
+  margin-top:20px;
+}
+#imgsmall {
+  width: 400px; 
+  height: 400px;
+  opacity:0.5;
+}
+#imgsmall:hover { 
+  opacity: 1.0; 
+}
 </style>
 <title>Insert title here</title>
 </head>
 <body>
 <jsp:include page="/resources/include/header.jsp"/>
-	<div>
+	<div id="body-wrapper">
+	<div id="body-content">
+		<c:set var="pnk" value="${pnk }" />
 	<div class="leftboard">
-		
-		<img style="width: 400px; height: 400px;" class="img" src="resources/upload/${dto.getBfile_name()}">
-	
+		<c:set var="left" value="${leftboard }" />
+		<c:if test="${left eq null }">
+			<img id="icon" src="resources/img/close.png">
+		</c:if>
+		<c:if test="${left ne null}">
+			<a href="<%=request.getContextPath() %>/board_content.do?no=${left.getBno() }&page=${pnk.getPage() }&keyword=${pnk.getKeyword() }">
+			<img id="imgsmall" src="resources/upload/${left.getBfile_name()}"></a>
+			<div class="writer">${i.getBwriter() }</div>
+	        <div align="left"><span><img id="icon" src="resources/img/show.png">${left.getBhit() }&nbsp;
+			    <input type="hidden" name="bno" value="${left.getBno() }"></span>
+			    <span><img id="icon" src="resources/img/nolike.png">${left.getBlike()}</span>
+		        <span><img  style="margin-left:5px;"id="icon" src="resources/img/comment.png">${left.getReply_count() }</span>
+		    </div>
+		    <div>
+		        <table class="table">
+		        	<tr>
+		        		<td width="20%" class="grey">${left.getBwriter() }</td>
+		        		<td>${left.getBtitle() }</td>
+			           	<td width="35%" class="grey">${left.getBdate() }</td>
+			        </tr>
+		        </table>
+		    </div>
+		</c:if>
 	</div>
 	<div class="wrapper">
 		<c:set var="dto" value="${Cont }" />
 		<c:set var="rnum" value="${rnum }" />
 		<c:if test="${id eq dto.getBwriter()}">
-			<button onclick="location.href='board_edit.do?no=${dto.getBno()}&page=${page }&keyword=${keyword }'">
+			<button onclick="location.href='board_edit.do?no=${dto.getBno()}&page=${pnk.getPage() }&keyword=${pnk.getKeyword() }'">
 				<img id="icon" src="resources/img/edit.png"></button>
 			<button onclick="if(confirm('정말로 게시글을 삭제하시겠습니까?')) {
-				location.href='board_delete.do?no=${dto.getBno()}&page=${page }'
+				location.href='board_delete.do?no=${dto.getBno()}&page=${pnk.getPage() }'
 				}else { return; }"><img id="icon" src="resources/img/bin.png"></button>
 		</c:if>
-			<button onclick="location.href='board_list.do?page=${page }&keyword=${keyword }'">
+			<button onclick="location.href='board_list.do?page=${pnk.getPage() }&keyword=${pnk.getKeyword() }'">
 				<img id="icon" src="resources/img/return.png"></button>
 			
 			<div class="width">
@@ -254,7 +322,7 @@ button {
 				</div>
 				<div class="commentlist">
 					<form method="post"
-						action="<%=request.getContextPath() %>/comment_insert.do?page=${page }&keyword=${keyword }">
+						action="<%=request.getContextPath() %>/comment_insert.do?page=${pnk.getPage() }&keyword=${pnk.getKeyword() }">
 						<c:if test="${!empty id }">
 						<table width="590">	
 							<tr>
@@ -288,7 +356,7 @@ button {
 					               
 					               		<button id="button"  class="updatecom" idx="${i.getNo()}" ><img id="icon" src="resources/img/option.png"></button>
 					               		<button onclick="if(confirm('댓글을 삭제하시겠습니까?')) 
-					               				{location.href='comment_delete.do?bno=${dto.getBno()}&no=${i.getNo()}&page=${page }&keyword=${keyword }'
+					               				{location.href='comment_delete.do?bno=${dto.getBno()}&no=${i.getNo()}&page=${pnk.getPage() }&keyword=${pnk.getKeyword() }'
 					                  		   }else { return; }"><img id="icon" src="resources/img/bin.png"></button>
 					               </c:if>
 					            </td>
@@ -311,7 +379,7 @@ button {
 						<div class="updatecomment" id="updatecomment${i.getNo() }">
 							
 							<form method="post"
-								action="<%=request.getContextPath() %>/comment_update.do?bno=${dto.getBno()}&page=${page }&keyword=${keyword }"> 
+								action="<%=request.getContextPath() %>/comment_update.do?bno=${dto.getBno()}&page=${pnk.getPage() }&keyword=${pnk.getKeyword() }"> 
 								<table width="590">	
 									<tr>
 										<td width="80%">
@@ -338,8 +406,34 @@ button {
 			</c:if>       
 		</div>
 	</div>
+	<div class="rightboard">
+		<c:set var="right" value="${rightboard }" />
+		<c:if test="${right eq null }">
+			<img id="icon" src="resources/img/close.png">
+		</c:if>
+		<c:if test="${right ne null}">
+			<a href="<%=request.getContextPath() %>/board_content.do?no=${right.getBno() }&page=${pnk.getPage() }&keyword=${pnk.getKeyword() }">
+			<img id="imgsmall" src="resources/upload/${right.getBfile_name()}"></a>
+			<div class="writer">${i.getBwriter() }</div>
+	        <div align="left"><span><img id="icon" src="resources/img/show.png">${right.getBhit() }&nbsp;
+			    <input type="hidden" name="bno" value="${right.getBno() }"></span>
+			    <span><img id="icon" src="resources/img/nolike.png">${right.getBlike()}</span>
+		        <span><img  style="margin-right:5px;"id="icon" src="resources/img/comment.png">${right.getReply_count() }</span>
+		    </div>
+		    <div>
+		        <table class="table">
+		        	<tr>
+		        		<td width="20%" class="grey">${right.getBwriter() }</td>
+		        		<td>${right.getBtitle() }</td>
+			           	<td width="35%" class="grey">${right.getBdate() }</td>
+			        </tr>
+		        </table>
+		    </div>
+		</c:if>
 	</div>
-<jsp:include page="/resources/include/footer.jsp"/> 
+	</div>
+<jsp:include page="/resources/include/footer.jsp"/>
+</div>
 <script type="text/javascript">
 
 var bno = ${dto.getBno()};

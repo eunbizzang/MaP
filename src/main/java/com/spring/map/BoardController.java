@@ -239,18 +239,29 @@ public class BoardController {
 		}
 		
 		// 게시글 댓글 내역 조회하는 메서드 호출
-		List<ReviewReplyDTO> rdto = this.dao.replyList(bno);
-				
+		List<ReviewReplyDTO> rdto = this.dao.replyList(bno);		
+		
+		// 페이지 데이터 담기
+		PageDTO pdto = new PageDTO(nowPage, bno, nowPage, "", keyword);
+		
+		BoardDTO leftboard = null;
+		BoardDTO rightboard = null;
+		
+		// 전글 후글 게시글 데이터 설정
+		leftboard = this.dao.getLeftBoard(bno);
+		rightboard = this.dao.getRightBoard(bno);
+		
+		model.addAttribute("leftboard", leftboard);
+		
+		model.addAttribute("rightboard", rightboard);
+		
 		model.addAttribute("rlist", rdto);
 		
 		model.addAttribute("Cont", dto);
 		
-		model.addAttribute("page", nowPage);
-		
-		model.addAttribute("keyword", keyword);
+		model.addAttribute("pnk", pdto);
 		
 		return "board_content";
-		
 	}
 	
 	
@@ -409,6 +420,17 @@ public class BoardController {
 		
 		model.addAttribute("liked", testlike);
 		
+		BoardDTO leftboard = null;
+		BoardDTO rightboard = null;
+		
+		// 전글 후글 게시글 데이터 설정
+		leftboard = this.dao.getLeftBoard(dto.getBno());
+		rightboard = this.dao.getRightBoard(dto.getBno());
+		
+		model.addAttribute("leftboard", leftboard);
+		
+		model.addAttribute("rightboard", rightboard);
+		
 		model.addAttribute("Cont", bdto);
 				
 		model.addAttribute("rlist", rdto);
@@ -452,6 +474,16 @@ public class BoardController {
 		
 		model.addAttribute("liked", testlike);
 		 
+		BoardDTO leftboard = null;
+		BoardDTO rightboard = null;
+		
+		// 전글 후글 게시글 데이터 설정
+		leftboard = this.dao.getLeftBoard(dto.getBno());
+		rightboard = this.dao.getRightBoard(dto.getBno());
+		
+		model.addAttribute("leftboard", leftboard);
+		
+		model.addAttribute("rightboard", rightboard);
 		
 		model.addAttribute("Cont", bdto);
 		
@@ -471,7 +503,7 @@ public class BoardController {
 		this.dao.boardCommentDelete(no);
 		
 		// 댓글수 감소시키는 메서드 호출
-		this.dao.commentCount(bno);
+		this.dao.commentDown(bno);
 		
 		// 게시글 상세 내역 조회하는 메서드 호출
 		BoardDTO bdto = this.dao.boardCont(bno);
@@ -492,6 +524,17 @@ public class BoardController {
 		int testlike = this.dao.selectLike(likedto);
 				
 		model.addAttribute("liked", testlike);
+		
+		BoardDTO leftboard = null;
+		BoardDTO rightboard = null;
+		
+		// 전글 후글 게시글 데이터 설정
+		leftboard = this.dao.getLeftBoard(bno);
+		rightboard = this.dao.getRightBoard(bno);
+		
+		model.addAttribute("leftboard", leftboard);
+		
+		model.addAttribute("rightboard", rightboard);
 		
 		model.addAttribute("Cont", bdto);
 		
@@ -530,7 +573,18 @@ public class BoardController {
 		int testlike = this.dao.selectLike(likedto);
 						
 		model.addAttribute("liked", testlike);
-			
+		
+		BoardDTO leftboard = null;
+		BoardDTO rightboard = null;
+		
+		// 전글 후글 게시글 데이터 설정
+		leftboard = this.dao.getLeftBoard(bno);
+		rightboard = this.dao.getRightBoard(bno);
+		
+		model.addAttribute("leftboard", leftboard);
+		
+		model.addAttribute("rightboard", rightboard);
+		
 		model.addAttribute("Cont", bdto);
 				
 		model.addAttribute("rlist", rdto);

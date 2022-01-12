@@ -51,6 +51,14 @@
 		select * from map_review where bno = #{no}
 	</select>
 	
+	<select id="review_left" parameterType="int" resultType="com.spring.model.BoardDTO">
+		<![CDATA[select * from map_review where bno = (select max(bno) from map_review where bno < #{bno})]]>
+	</select>
+	
+	<select id="review_right" parameterType="int" resultType="com.spring.model.BoardDTO">
+		<![CDATA[select * from map_review where bno = (select min(bno) from map_review where bno > #{bno})]]>
+	</select>
+	
 	<delete id="review_delete" parameterType="int" >
 		delete from map_review where bno = #{no}
 	</delete>
