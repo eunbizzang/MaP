@@ -1,0 +1,138 @@
+@charset "UTF-8";
+
+
+/**메인 공통 summary**/
+.summary__title {
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 1.25;
+}
+.summary__description1 {
+    font-size: 26px;
+    font-weight: 300;
+    color: #fff;
+    line-height: 1.5;   
+}
+.summary__description2 {
+    font-size: 36px;
+    font-weight: 300;
+    color: #fff;
+    line-height: 1.5;   
+}
+
+
+
+ .summary__description2 span,
+ .summary__description span{
+    font-weight: bold;   
+    color: #000;
+}
+
+ /* .summary__title span{
+ color: #eee;
+ 
+ } */
+
+
+/* 메인 배너 visual 영역 */
+.section--visual {
+    background-image: url("../img/main/baner3.png");
+    background-position: bottom left;
+}
+.section--visual::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 1.5;
+    background: rgba(0,0,0,.2);
+}
+.section--visual .inner {
+    padding: 160px 0;
+    display: flex;
+}
+.section--visual .summary {
+    z-index: 2; 
+    margin-left: 89px;
+}
+.section--visual .summary__title {
+    color: #fff;
+    font-size: 100px;                       
+}
+.section--visual .summary__description3{
+    margin-top: 15px;                    
+} 
+
+
+/**우리 동네에 있는 사람들과 소통하고싶다면 intro**/
+.section--intro .img {
+    background-image: url("../img/main/main1.png");
+    background-size: 526px 735px;
+    width: 526px;
+    height: 519px;
+}
+.section--intro .inner {
+	padding: 80px 0;
+  	display: flex;
+}
+.section--intro .summary {
+	width: 340px;
+    margin-top: 248px;
+    margin-left: 41px;
+    text-align: right;		
+}
+/*요즘 제일 인기있는 너튜브 feature*/
+.section--feature {
+    background: #f5f5f5;
+    padding: 80px;
+    height: 519px;   
+}
+.section--feature .summary {
+    max-width: 820px;
+    margin: 0 auto;
+    text-align: center;
+}
+.section--feature .video {
+    max-width: 650px;
+    margin: 50px auto;
+}
+.section--feature .video .video-ratio {
+    height: 0;
+    padding-top: 56.25%;
+    position: relative;
+}
+.section--feature .video .video-ratio iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+/* 요즘 많은 사람들이 다녀간 맛집 where is */
+.section--where-is {
+    margin-bottom: 50px;
+}
+.section--where-is .inner {
+ padding-top: 80px;
+}
+#map {
+    width: 100%;
+    height: 400px;
+    margin-top: 40px;
+    border: 1px solid rgba(0,0,0,.2);
+    border-bottom: none;
+    box-shadow: 0 0 20px rgba(0,0,0,.2);
+    box-sizing: border-box;
+}
+.section--where-is .summary__description,
+.section--where-is .summary__title {
+    text-align: center;
+}
+
+
+
+
+

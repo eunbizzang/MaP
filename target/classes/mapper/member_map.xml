@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!-- DTD(Document Type Definition)
+	 - 작성하는 문서가 어떤 문서인지에 대해서 정의하는 것.
+	 - 하나의 시스템 내에서 사용할 xml 데이터의 구조를 정의하여 유효성을 점검할 때 사용.
+ -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+<!-- namespace 명은 패키지명 포함해서 인터페이스 이름으로 작성을 해 주어야 함. 
+	 namespace는 mapper 들을 구분하는데 식별자로 사용함. -->
+<mapper namespace="com.spring.model.MemberDAO">
+
+	<insert id="signup" parameterType="com.spring.model.MemberDTO">
+		insert into map_member values(#{id}, #{pwd}, #{name}, #{phone},
+				#{email}, #{zipcode}, #{addr1}, #{addr2}, sysdate)
+	</insert>
+
+	
+	<!-- 아이디 중복검사 -->
+  	<select id="idCheck" parameterType="String" resultType="int">
+  		select count(*) from map_member where id = #{id}
+  	</select>
+
+	<!-- phone number 중복검사 -->
+	<select id="phoneCheck" parameterType="String" resultType="int">
+		select count(*) from map_member where phone = #{phone}
+	</select>
+
+	
+	<select id="login" parameterType="String" resultType="com.spring.model.MemberDTO">
+		select * from map_member where id = #{id}
+	</select>
+	
+	
+	<!-- 아이디 찾기 -->
+	<select id="findId" parameterType="com.spring.model.MemberDTO" resultType="com.spring.model.MemberDTO">
+		select * from map_member where name = #{name} and phone = #{phone}
+	</select>
+	
+	
+	<!-- 비밀번호 찾기  -->
+	<select id="findPwd" parameterType="com.spring.model.MemberDTO" resultType="com.spring.model.MemberDTO">
+		select * from map_member where id = #{id} and email = #{email}
+	</select>
+	
+	<!-- 임시비밀번호 DB에 저장 -->
+	<update id="modifyPwd" parameterType="com.spring.model.MemberDTO">
+		update map_member set pwd = #{pwd} where id = #{id} and email = #{email}
+	</update>
+	
+	
+	<!-- 정보 수정 -->
+	<update id="modifyOk" parameterType="com.spring.model.MemberDTO">
+		update map_member set pwd = #{pwd}, phone = #{phone}, email = #{email},
+						zipcode = #{zipcode}, addr1 = #{addr1}, addr2 = #{addr2}
+							where id = #{id}
+	</update>
+	
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteId" parameterType="String">
+		delete from map_member where id = #{id}
+	</delete>
+	
+</mapper>

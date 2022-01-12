@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.spring.model.Map_eventDAO">
+
+	<select id="event_count" resultType="int">
+		select count(*) from map_event
+			where bend >= to_char(sysdate, 'YYYYMMDD')
+	</select>
+	
+	<select id="event_list" parameterType="com.spring.model.PageDTO"
+			resultType="com.spring.model.Map_eventDTO">
+		<![CDATA[
+			select * from 
+				(select e.*, row_number()
+					over(order by bno desc) rnum from map_event e
+					where bend >= to_char(sysdate, 'YYYYMMDD'))
+					where rnum >= #{startNo} and rnum <= #{endNo}
+		]]>
+	</select>
+	
+	<update id="event_hit" parameterType="int">
+		update map_event set bhit = bhit + 1 
+			where bno = #{bno}
+	</update>
+	
+	<select id="event_content" parameterType="int" resultType="com.spring.model.Map_eventDTO">
+		select * from map_event where bno = #{bno}
+	</select>
+	
+	<select id="event_endcount" resultType="int">
+		select count(*) from map_event
+			where to_char(sysdate, 'YYYYMMDD') > bend
+	</select>
+	
+	<select id="event_endList" parameterType="com.spring.model.PageDTO"
+			resultType="com.spring.model.Map_eventDTO">
+		<![CDATA[
+			select * from 
+				(select e.*, row_number()
+					over(order by bno desc) rnum from map_event e
+					where to_char(sysdate, 'YYYYMMDD') > bend)
+					where rnum >= #{startNo} and rnum <= #{endNo}
+		]]>
+	</select>
+	
+	<select id="event_allcount" resultType="int">
+		select count(bno) from map_event
+	</select>
+	
+	<select id="event_allList" parameterType="com.spring.model.PageDTO"
+		resultType="com.spring.model.Map_eventDTO">
+		<![CDATA[
+			select * from 
+				(select e.*, row_number()
+					over(order by bno desc) rnum from map_event e)
+					where rnum >= #{startNo} and rnum <= #{endNo}
+		]]>
+	</select>
+	
+	<insert id="event_addEvent" parameterType="com.spring.model.Map_eventDTO">
+		<selectKey resultType="int" keyProperty="bno" order="BEFORE">
+			select count(*) from map_event
+		</selectKey>
+		insert into map_event values(#{bno} + 1, #{btitle}, #{bcont}, 
+			#{bupload}, #{bpath}, default, sysdate, #{bstart}, #{bend})
+	</insert>
+	
+	<delete id="event_del" parameterType="int">
+		delete from map_event where bno = #{bno}
+	</delete>
+	
+	<update id="event_Seq" parameterType="int">
+		<![CDATA[
+			update map_event set bno = bno - 1
+			where bno > #{bno}
+		]]>
+	</update>
+
+	<update id="event_editEvent" parameterType="com.spring.model.Map_eventDTO">
+		update map_event set btitle = #{btitle}, 
+			bstart = #{bstart}, bend = #{bend}, bcont = #{bcont}
+			where bno = #{bno}
+	</update>
+	
+	<update id="event_fileedit" parameterType="com.spring.model.Map_eventDTO">
+		update map_event set btitle = #{btitle}, 
+			bstart = #{bstart}, bend = #{bend}, bcont = #{bcont},
+			bupload = #{bupload}, bpath = #{bpath}
+			where bno = #{bno}
+	</update>
+
+</mapper>

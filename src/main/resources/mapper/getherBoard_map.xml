@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<!-- namespace명은 패키지명 포함해서 인터페이스 이름으로 작성을 해 주어야 함
+		namespace는 mapper 들을 구분하는데 식별자로 사용함.
+	 -->
+  <mapper namespace="com.spring.model.getherBoardDAO">
+	
+	<select id="gether_count" resultType="int">
+		select count(*) from map_gether_board
+	</select>
+	
+	<select id="gether_all" parameterType="com.spring.model.PageDTO" 
+		resultType="com.spring.model.getherBoardDTO">
+		<![CDATA[
+			select * from
+				(select b.*, row_number() 
+			   		over(order by bno desc) rnum from map_gether_board b)	
+			   		where rnum >= #{startNo} and rnum <= #{endNo}
+		]]>
+	</select>
+	
+	<insert id="gether_insert" parameterType="com.spring.model.getherBoardDTO">
+		<selectKey resultType="int" keyProperty="bno" order="BEFORE">
+			select count(*) from map_gether_board
+		</selectKey>
+		
+		insert into map_gether_board values (#{bno}+1, #{bwriter}, #{btitle},
+		#{bcont}, #{bcode}, #{bupload}, sysdate, '', 0, #{bsecter})
+	</insert>
+	
+	<update id="gether_hitcount" parameterType="int">
+		update map_gether_board set bhit=bhit+1 where bno=#{no} 
+	</update>
+	
+	<select id="gether_content" parameterType="int" resultType="com.spring.model.getherBoardDTO">
+		select * from map_gether_board where bno=#{no}
+	</select>
+	
+	<update id="gether_update" parameterType="com.spring.model.getherBoardDTO">
+		update map_gether_board set btitle=#{btitle},
+			bcont=#{bcont }, bcode=#{bcode}, bupload=#{bupload}, bredate=sysdate,
+			bsecter=#{bsecter } where bno=#{bno}
+	</update>
+	
+	<delete id="gether_delete" parameterType="int">
+		delete from map_gether_board where bno=#{no}
+	</delete>
+	
+	<update id="gether_seq" parameterType="int">
+		update map_gether_board set bno=bno-1 where bno>#{no}
+	</update>
+  
+  
+  	<select id="gether_title" resultType="int">
+		select count(*) from map_gether_board
+			where btitle like '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="gether_cont" resultType="int">
+		select count(*) from map_gether_board
+			where bcont like '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="gether_title_cont" resultType="int">
+		select count(*) from map_gether_board
+			where btitle like '%' || #{keyword} || '% or
+				bcont like '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="gether_writer" resultType="int">
+		select count(*) from map_gether_board
+			where bwriter like '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="gether_titleList" parameterType="com.spring.model.PageDTO"
+				resultType="com.spring.model.getherBoardDTO">
+		<![CDATA[
+			select * from
+				(select b.*, row_number() 
+			   		over(order by bno desc) rnum from map_gether_board b
+			   		where btitle like '%' || #{keyword} || '%')	
+			   		where rnum >= #{startNo} and rnum <= #{endNo}
+		]]>
+	</select>
+	
+	<select id="gether_contList" parameterType="com.spring.model.PageDTO"
+				resultType="com.spring.model.getherBoardDTO">
+		<![CDATA[
+			select * from
+				(select b.*, row_number() 
+			   		over(order by bno desc) rnum from map_gether_board b
+			   		where bcont like '%' || #{keyword} || '%')	
+			   		where rnum >= #{startNo} and rnum <= #{endNo}
+		]]>
+	</select>
+	
+	<select id="gether_titleCont" parameterType="com.spring.model.PageDTO"
+				resultType="com.spring.model.getherBoardDTO">
+		<![CDATA[
+			select * from
+				(select b.*, row_number() 
+			   		over(order by bno desc) rnum from map_gether_board b
+			   		where btitle like '%' || #{keyword} || '%' or 
+			   		bcont like '%' || ${keyword} || '%')	
+			   		where rnum >= #{startNo} and rnum <= #{endNo}
+		]]>
+	</select>
+	
+	<select id="gether_writerList" parameterType="com.spring.model.PageDTO"
+				resultType="com.spring.model.getherBoardDTO">
+		<![CDATA[
+			select * from
+				(select b.*, row_number() 
+			   		over(order by bno desc) rnum from map_gether_board b
+			   		where bwriter like '%' || #{keyword} || '%')	
+			   		where rnum >= #{startNo} and rnum <= #{endNo}
+		]]>
+	</select>	
+	
+	<!-- 댓글 부분 -->
+	<select id="gether_replyList" parameterType="int"
+		resultType="com.spring.model.getherReplyDTO">
+		select * from map_gether_reply where mno=#{mno} order by rno desc
+	</select>
+	
+	<insert id="gether_replyInsert" parameterType="com.spring.model.getherReplyDTO">
+		<selectKey resultType="int" keyProperty="rno" order="BEFORE">
+			select count(rno) from map_gether_reply
+		</selectKey>
+		<![CDATA[
+			insert into map_gether_reply values (#{rno}+1, #{mno}, #{rwriter}, #{rcont}, sysdate, '')
+		]]>
+		
+	</insert>
+	
+	<update id="gether_replyUpdate" parameterType="com.spring.model.getherReplyDTO">
+		update map_gether_reply set rcont=#{rcont}, rredate=sysdate where rno=#{rno}
+	</update>
+	
+	<delete id="gether_replyDelete">
+		delete from map_gether_reply where rno=#{rno}
+	</delete>
+	
+	<update id="gether_replySeq">
+		update map_gether_reply set rno=rno-1 where rno>#{rno}
+	</update>
+	
+	<delete id="gether_replyAllDel">
+		delete from map_gether_reply where mno=#{mno}
+	</delete>
+
+	<select id="gether_oneReply" parameterType="int"
+		resultType="com.spring.model.getherReplyDTO">
+		select * from map_gether_reply where rno=#{rno}
+	</select>
+  </mapper>

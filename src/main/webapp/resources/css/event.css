@@ -1,0 +1,58 @@
+@charset "UTF-8";
+
+.menu {
+	list-style: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.menu li a {
+	font-weight: bold;
+	font-size: 30px;
+	text-decoration: none;
+	margin-right: 30px;
+	position: relative;
+	color: #4D4D4D;
+}
+
+.menu li a::before{
+	content: "";
+	height: 5px;
+	width: 0;
+	background-color: #8bdeff;
+	border-radius: 10px;
+	transition: 0.3s;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+.menu li a:hover::before {
+	width: 100%;
+	background-color: #8bdeff;
+}
+
+.page_a {
+	text-decoration: none;
+}
+
+.event_a {
+	text-decoration: none;
+	font-size: 20px;
+	color: black;
+	font-weight: bold;
+}
+
+.event_a:hover {
+	font-size: 25px;
+	transition: 0.2s;
+}
+
+.event_text {
+	color: white;
+	font-size: 25px;
+	background-color: #8bdeff;
+	border-radius: 20px;
+	width: 50%;
+}

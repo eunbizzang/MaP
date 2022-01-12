@@ -1,0 +1,60 @@
+@charset "UTF-8";
+
+/*footer 전체영역*/
+footer {
+	margin-top: 100px;
+    background: rgba(175, 227, 247, .4);
+}
+
+footer .inner {
+    padding: 40px 0;
+}
+
+
+/*company*/
+footer .company {
+	display: flex;
+}
+footer .company .company-list a{
+	margin-right: 10px;
+    text-align: center;
+    color: rgb(33, 33, 33);
+    cursor: pointer;
+}
+
+
+/*customer*/
+footer .customer {
+	margin-top: 19px;
+}
+footer .customer-list .customer-list-item {
+    display: inline-block;
+}
+footer .customer ul {
+    display: block;
+    line-height: 40px;
+}
+footer .customer li a{
+    color:#4078c0;
+    line-height: 1;
+}
+
+
+/*social */
+footer .social{
+	margin-top: 19px;
+    margin-bottom: 3px;	
+}
+footer .social .social-list .social-list-item{
+	display: inline-block;
+    margin: 0px;
+    margin-right: 2px;
+}
+footer .social .social-list .global-links{
+	display: inline-block;
+    margin: 0px;
+    margin-right: 2px;
+}
+footer .global-links .global-links-select{
+	font-family: 'Do Hyeon', sans-serif;
+}  

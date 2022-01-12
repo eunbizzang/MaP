@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+
+<mapper namespace="com.spring.model.BoardDAO">
+
+	<select id="review_count" resultType="int">
+		select count(*) from map_review
+	</select>
+	
+	<select id="review_kcount" parameterType="String" resultType="int">
+		select count(*) from map_review
+				where btitle like '%'||#{keyword}||'%' or bcontent like '%'||#{keyword}||'%'
+	</select>
+	
+	<select id="review_list" parameterType="com.spring.model.PageDTO"
+			resultType="com.spring.model.BoardDTO">
+			<![CDATA[ select * from
+				(select m.*, row_number() 
+			   		over(order by bno desc) rnum from map_review m)	
+					where rnum >= #{startNo} and rnum <= #{endNo}	]]>	
+	</select>
+	
+	<select id="review_klist" parameterType="com.spring.model.PageDTO"
+			resultType="com.spring.model.BoardDTO">
+			<![CDATA[ select * from
+				(select m.*, row_number() 
+			   		over(order by bno desc) rnum from map_review m)	
+				where rnum >= #{startNo} and rnum <= #{endNo}
+				and (btitle like '%'||#{keyword}||'%' or bcontent like '%'||#{keyword}||'%') ]]>
+	</select>
+	
+	<insert id="review_add" parameterType="com.spring.model.BoardDTO">
+		<selectKey resultType="int" keyProperty="bno" order="BEFORE">
+			select NVL(MAX(bno), 0) + 1 from map_review
+		</selectKey>
+		
+		insert into map_review (bno, bwriter, btitle, bcontent, bdate, bfile_name) 
+		values(#{bno}, #{bwriter}, #{btitle}, #{bcontent}, sysdate, #{bfile_name})
+	</insert>
+	
+	<update id="review_read" parameterType="int">
+		update map_review set bhit = bhit + 1
+				where bno = #{no}
+	</update>
+	
+	<select id="review_content" parameterType="int" resultType="com.spring.model.BoardDTO">
+		select * from map_review where bno = #{no}
+	</select>
+	
+	<delete id="review_delete" parameterType="int" >
+		delete from map_review where bno = #{no}
+	</delete>
+	
+	<update id="review_edit" parameterType="com.spring.model.BoardDTO" >
+		update map_review set btitle = #{btitle}, bcontent = #{bcontent}, bredate = sysdate 
+				where bno = #{bno}
+	</update>
+	
+	<update id="review_edit_file" parameterType="com.spring.model.BoardDTO" >
+		update map_review set btitle = #{btitle}, bcontent = #{bcontent}, bfile_name = #{bfile_name}, bredate = sysdate 
+				where bno = #{bno}
+	</update>
+
+	<select id="review_rcount" resultType="int">
+		select count(*) from map_review_reply
+					where bno = #{no}
+	</select>
+	<select id="review_rlist" parameterType="int"
+			resultType="com.spring.model.ReviewReplyDTO">
+		<![CDATA[
+			select * from map_review_reply	
+			   		where bno = #{no} order by no
+		]]>
+	</select>
+	
+	<insert id="review_comment" parameterType="com.spring.model.ReviewReplyDTO">
+		<selectKey resultType="int" keyProperty="no" order="BEFORE">
+			select NVL(MAX(no), 0) + 1 from map_review_reply
+		</selectKey>
+		
+		insert into map_review_reply (no, bno, writer, content, wdate) 
+		values(#{no}, #{bno}, #{writer}, #{content}, sysdate)
+	</insert>
+	
+	<update id="review_commentCount" parameterType="int">
+		update map_review set reply_count = reply_count + 1
+				where bno = #{no}
+	</update>
+	
+	<update id="review_commentDown" parameterType="int">
+		update map_review set reply_count = reply_count - 1
+				where bno = #{no}
+	</update>
+	
+	<delete id="review_comment_delete" parameterType="int" >
+		delete from map_review_reply
+				where no = #{no}
+	</delete>
+	
+	<select id="review_likecnt" resultType="int">
+		select count(*) from map_review_like
+					where bno = #{bno} and id = #{id}
+	</select>
+	
+	<select id="review_list_like" resultType="int">
+		select bno from map_review_like
+    	where id = #{id} and bno between #{start} and #{end}
+	</select>
+	
+	<insert id="review_like" parameterType="com.spring.model.ReviewLikeDTO">
+		
+		insert into map_review_like (no, bno, id) 
+		values ((select NVL(max(no), 0) + 1 from map_review_like), #{bno}, #{id})
+	</insert>
+	
+	<delete id="review_dislike" parameterType="com.spring.model.ReviewLikeDTO">
+		
+		delete from map_review_like where bno = #{bno} and id = #{id} 
+	</delete>
+	
+	<update id="review_pluslike" parameterType="int">
+		update map_review set blike = blike + 1
+				where bno = #{bno}
+	</update>
+	
+	<update id="review_minuslike" parameterType="int">
+		update map_review set blike = blike - 1
+				where bno = #{no}
+	</update>
+	
+	<update id="review_commentUpdate" parameterType="com.spring.model.ReviewReplyDTO">
+		update map_review_reply set content = #{content}, rdate = sysdate
+			where no = #{no}
+	</update>
+	
+</mapper>
+
+

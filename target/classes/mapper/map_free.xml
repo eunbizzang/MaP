@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="com.spring.model.Free_boardDAO">
+  <select id="free_count" resultType="int">
+		select count(*) from map_free
+	</select>
+  <select id="free_list" parameterType="com.spring.model.PageDTO" 
+  resultType="com.spring.model.Free_boardDTO">
+		<![CDATA[
+			select * from
+				(select b.*, row_number() 
+			   		over(order by bno desc) rnum from map_free b)	
+			   		where rnum >= #{startNo} and rnum <= #{endNo}
+		]]>
+	</select>
+	
+	<insert id="free_add" parameterType="com.spring.model.Free_boardDTO">
+		<selectKey resultType="int" keyProperty="bno" order="BEFORE">
+			select count(bno) from map_free
+		</selectKey>
+		
+		insert into map_free values(#{bno} + 1,#{btitle}, #{bwriter}, #{bcont},
+				#{bcode}, #{bupload}, default, sysdate, '',#{buploadd})
+	</insert>
+	
+	<update id="free_read" parameterType="int">
+		update map_free set bhit = bhit + 1
+				where bno = #{no}
+	</update>
+	
+	<select id="free_content" parameterType="int" resultType="com.spring.model.Free_boardDTO">
+		select * from map_free where bno = #{no}
+	</select>
+	
+	<update id="free_edit" parameterType="com.spring.model.Free_boardDTO">
+		update map_free set bcode = #{bcode}, btitle = #{btitle},
+			bcont = #{bcont}, bredate = sysdate, buploadd = #{buploadd}
+			where bno = #{bno}
+	</update>
+	
+	<delete id="free_del" parameterType="int">
+		delete from map_free where bno = #{no}
+	</delete>
+	
+	<update id="free_seq" parameterType="int">
+		<![CDATA[
+			update map_free set bno = bno - 1
+				where bno > #{no}
+	    ]]>
+	</update>
+	
+	<select id="title" resultType="int">
+		select count(*) from map_free
+			where btitle like '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="cont" resultType="int">
+		select count(*) from map_free
+			where bcont like '%' || #{keyword} || '%'
+	</select>
+	
+		
+	<select id="writer" resultType="int">
+		select count(*) from map_free
+			where bwriter like '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="free_titleList" parameterType="com.spring.model.PageDTO"
+				resultType="com.spring.model.Free_boardDTO">
+		<![CDATA[
+			select * from
+				(select b.*, row_number() 
+			   		over(order by bno desc) rnum from map_free b
+			   		where btitle like '%' || #{keyword} || '%')	
+			   		where rnum >= #{startNo} and rnum <= #{endNo}
+		]]>
+	</select>
+	
+	<select id="free_contList" parameterType="com.spring.model.PageDTO"
+				resultType="com.spring.model.Free_boardDTO">
+		<![CDATA[
+			select * from
+				(select b.*, row_number() 
+			   		over(order by bno desc) rnum from map_free b
+			   		where bcont like '%' || #{keyword} || '%')	
+			   		where rnum >= #{startNo} and rnum <= #{endNo}
+		]]>
+	</select>
+	
+	
+	
+	<select id="free_writerList" parameterType="com.spring.model.PageDTO"
+				resultType="com.spring.model.Free_boardDTO">
+		<![CDATA[
+			select * from
+				(select b.*, row_number() 
+			   		over(order by bno desc) rnum from map_free b
+			   		where bwriter like '%' || #{keyword} || '%')	
+			   		where rnum >= #{startNo} and rnum <= #{endNo}
+		]]>
+	</select>
+	
+	<!-- 댓글 -->
+		<select id="free_readReply"  parameterType="int" resultType="com.spring.model.FreeReplyDTO">
+			<![CDATA[select *
+  			from map_free_reply
+ 			where bno = #{bno} order by no desc ]]>
+		</select>
+	
+		<insert id="free_reply_add" parameterType="com.spring.model.FreeReplyDTO">
+		<selectKey resultType="int" keyProperty="no" order="BEFORE">
+			select count(no) from map_free_reply
+		</selectKey>
+		insert into map_free_reply(no, bno, rwriter, rcont, rdate, rredate)
+		values(#{no} + 1, #{bno}, #{rwriter}, #{rcont}, sysdate, '')
+		</insert>
+		
+		<delete id="free_reply_del" parameterType="int">
+		delete from map_free_reply where no = #{no}
+		</delete>
+		
+		<update id="free_reply_seq" parameterType="int">
+		<![CDATA[
+			update map_free_reply set no = no - 1
+				where no > #{no}
+	    ]]>
+		</update>
+		
+		<select id="free_reply_content" parameterType="int" resultType="com.spring.model.FreeReplyDTO">
+		select * from map_free_reply where no = #{no}
+		</select>
+	
+	<update id="free_reply_edit" parameterType="com.spring.model.FreeReplyDTO">
+		update map_free_reply set rcont = #{rcont}, rredate = sysdate where no = #{no}
+	</update>
+	
+  </mapper>
