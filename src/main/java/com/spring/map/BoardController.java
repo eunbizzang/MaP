@@ -48,10 +48,17 @@ public class BoardController {
 	
 	
 	@RequestMapping("board_list.do")
-	public String list(HttpServletRequest request, Model model, @RequestParam(defaultValue="")String keyword) {
-		
+	public String list(HttpServletRequest request, Model model) {
+		String keyword;
 		int page;  // 현재 페이지 변수
 		
+		if(request.getParameter("keyword") != null) {
+			keyword = request.getParameter("keyword");
+		}else {
+			keyword = null;
+		}
+		
+        
 		if(request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page"));
 		}else {
@@ -66,7 +73,7 @@ public class BoardController {
 			id = (String) session.getAttribute("id");	
 		}
 		// 검색키워드 없는 경우
-		if(keyword.equals("")) {
+		if(keyword==null) {
 			
 			// DB 상의 전체 게시물의 수를 확인하는 작업
 			totalRecord = this.dao.getListCount();
@@ -215,8 +222,11 @@ public class BoardController {
 	
 	
 	@RequestMapping("board_content.do")
-	public String cont(@RequestParam("no") int bno, @RequestParam(defaultValue="")String keyword,
-			@RequestParam("page") int nowPage, Model model, HttpServletRequest request) {
+	public String cont(Model model, HttpServletRequest request) {
+		
+		int bno = Integer.parseInt(request.getParameter("no"));
+        int nowPage = Integer.parseInt(request.getParameter("page"));
+        String keyword = request.getParameter("keyword");
 		
 		// 조회수 증가시키는 메서드 호출
 		this.dao.readCount(bno);
@@ -244,6 +254,7 @@ public class BoardController {
 		// 페이지 데이터 담기
 		PageDTO pdto = new PageDTO(nowPage, bno, nowPage, "", keyword);
 		
+		System.out.println("keyword" + keyword);
 		BoardDTO leftboard = null;
 		BoardDTO rightboard = null;
 		
@@ -305,7 +316,6 @@ public class BoardController {
             System.out.println(e.getMessage() + "에서 예외를 받았습니다.");
 		}
 		
-		
 		// 갱신된 게시글 좋아요 수 확인하는 메서드 호출
 		// 게시글 상세 내역 조회하는 메서드 호출
 		BoardDTO dto = this.dao.boardCont(bno);
@@ -322,9 +332,10 @@ public class BoardController {
 
 	
 	@RequestMapping("board_delete.do")
-	public String delete(@RequestParam("no") int bno, 
-			@RequestParam("page") int nowPage, Model model, HttpServletRequest request) {
-		
+	public String delete(@RequestParam("no") int bno, @RequestParam(value="keyword", required=false) String keyword,
+			@RequestParam("page") int nowPage) {
+
+		System.out.println("board_delete.do");
 		// 게시글 상세 내역 조회하는 메서드 호출
 		BoardDTO dto = this.dao.boardCont(bno);
 		System.out.println();
@@ -341,20 +352,18 @@ public class BoardController {
 			System.out.println("파일이 존재하지 않습니다."); 
 			
 		}
-		
 		// 게시물 삭제하는 메서드 호출
 		this.dao.deleteBoard(bno);
-		
-		model.addAttribute("page", nowPage);
         
-		return "redirect:/board_list.do";
+		return "forward:board_list.do?page="+nowPage+"&keyword="+keyword;
 	}
 	
 	
 	@RequestMapping("board_edit.do")
 	public String edit(@RequestParam("no") int bno, @RequestParam("page") int nowPage,
-			@RequestParam("keyword")String keyword, Model model) {
-		
+			@RequestParam(value="keyword", required=false) String keyword, Model model) {
+
+		System.out.println("board_edit.do");
 		// 게시글 상세 내역 조회하는 메서드 호출
 		BoardDTO dto = this.dao.boardCont(bno);
 		
@@ -368,9 +377,10 @@ public class BoardController {
 	}
 	
 	@RequestMapping("board_edit_ok.do")
-	public String editOk(BoardDTO dto, @RequestParam("page") int nowPage, HttpServletRequest request,
-			@RequestParam("keyword")String keyword, Model model) throws IOException, Exception {
-		
+	public String editOk(BoardDTO dto, @RequestParam("page") int nowPage, 
+			@RequestParam(value="keyword", required=false) String keyword, Model model) throws IOException, Exception {
+
+		System.out.println("board_edit_ok.do");
 		if(!dto.getUploadFile().isEmpty()) {
 			System.out.println("첨부있다");
 			
@@ -400,13 +410,14 @@ public class BoardController {
 		}
 		
 		
-		return "forward:board_content.do?no="+dto.getBno()+"&page="+nowPage+"&keyword"+keyword;
+		return "forward:board_content.do?no="+dto.getBno()+"&page="+nowPage+"&keyword="+keyword;
 	}
 	
 	@RequestMapping("comment_insert.do")
 	public String comment(ReviewReplyDTO dto, @RequestParam("page") int nowPage,
-			@RequestParam("keyword")String keyword, Model model, HttpServletRequest request) {
-		
+			@RequestParam(value="keyword", required=false) String keyword, Model model) {
+
+		System.out.println("comment_insert.do");
 		
 		// 댓글 입력 메서드 호출
 		this.dao.boardComment(dto);
@@ -415,12 +426,13 @@ public class BoardController {
 		this.dao.commentCount(dto.getBno());
 				
 		
-		return "forward:board_content.do?no="+dto.getBno()+"&page="+nowPage+"&keyword"+keyword;
+		return "forward:board_content.do?no="+dto.getBno()+"&page="+nowPage+"&keyword="+keyword;
 	}
 	@RequestMapping("comment_delete.do")
-	public String commentDelete(@RequestParam("bno") int bno, @RequestParam("no") int no, HttpServletRequest request,
-			@RequestParam("page") int nowPage, @RequestParam("keyword")String keyword, Model model) {
-		
+	public String commentDelete(@RequestParam("bno") int bno, @RequestParam("no") int no, 
+			@RequestParam("page") int nowPage, @RequestParam(value="keyword", required=false) String keyword, Model model) {
+
+		System.out.println("comment_delete.do");
 		// 댓글 삭제 메서드 호출
 		this.dao.boardCommentDelete(no);
 		
@@ -428,16 +440,17 @@ public class BoardController {
 		this.dao.commentDown(bno);
 				
 		
-		return "forward:board_content.do?no="+bno+"&page="+nowPage+"&keyword"+keyword;
+		return "forward:board_content.do?no="+bno+"&page="+nowPage+"&keyword="+keyword;
 	}
 	
 	@RequestMapping("comment_update.do")
 	public String commentUpdate(ReviewReplyDTO dto, @RequestParam("bno") int bno,
-			@RequestParam("page") int nowPage, @RequestParam("keyword")String keyword) {
+			@RequestParam("page") int nowPage, @RequestParam(value="keyword", required=false) String keyword) {
 	
+		System.out.println("comment_update.do");
 		// 댓글 수정 메서드 호출
 		this.dao.replyUpdate(dto);
 				
-		return "forward:board_content.do?no="+bno+"&page="+nowPage+"&keyword"+keyword;
+		return "forward:board_content.do?no="+bno+"&page="+nowPage+"&keyword="+keyword;
 	}
 }

@@ -43,10 +43,7 @@ body {
     margin-left: 100px;
 }
 
-.img {
-    width: 600px;
-	height: 600px;
-}
+
 textarea {
   box-sizing: border-box;
   resize: both;
@@ -100,16 +97,7 @@ textarea {
   width:800px;
   font-size: 25px;
 }
-#comment {
-  margin-top:40px;
-  padding:auto;
-  text-align: center;/*중앙정렬*/
-  margin-left: 550px;
-}
-.commentlist {
-  text-align: left;
-  margin-left:105px;
-}
+
 #icon {
   width:25px;
   height:25px;
@@ -132,10 +120,7 @@ button {
   height:40px;
 }
 .date {
-  margin-left: 120px;
-}
-.date2 {
-  margin-left: 280px;
+  margin-left: 300px;
 }
 .tag {
   width:20px; 
@@ -149,6 +134,9 @@ button {
   font-size:25px;
   
 }
+
+
+/* inputarea 관련 */
 .textarea {
     padding: 10px;
     width: 42%;
@@ -173,6 +161,44 @@ button {
 	margin-left: auto;
 	margin-right: auto;
 }
+.writerarea {
+    padding: 10px;
+    margin-left:20px;
+    width: 80px;
+    height: 100%;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px #999;
+    font-family: 'Do Hyeon', sans-serif;
+	font-size: 20px;
+}
+
+
+/* comment 관련 */
+
+.cmtwrite {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+}
+.updatecomment {
+  margin-top:40px;
+  padding:auto;
+  text-align: center;/*중앙정렬*/
+  display:none;
+}
+#comment {
+  margin-top:40px;
+  padding:auto;
+  text-align: center;/*중앙정렬*/
+  margin-left: 550px;
+}
+.commentlist {
+  text-align: left;
+  margin-left:105px;
+  margin-bottom:20px;
+}
 .comtextarea {
     padding: 10px;
     width: 100%;
@@ -193,35 +219,9 @@ button {
     font-family: 'Do Hyeon', sans-serif;
 	font-size: 20px;
 }
-.writerarea {
-    padding: 10px;
-    margin-left:20px;
-    width: 80px;
-    height: 100%;
-    border-radius: 3px;
-    border: 1px solid #ccc;
-    box-shadow: 1px 1px 1px #999;
-    font-family: 'Do Hyeon', sans-serif;
-	font-size: 20px;
-}
-.updatecomment {
-  margin-top:40px;
-  padding:auto;
-  text-align: center;/*중앙정렬*/
-  display:none;
-}
-.loginplz {
-  margin-bottom: 20px;
-}
-.comments {
-  margin-bottom:20px;
-}
-.cmtwrite {
-  width: 50px;
-  height: 50px;
-  margin-bottom: 10px;
-  margin-left: 20px;
-}
+
+
+/* keyword 관련 */
 #keyword {
   width:150px;
   height:30px;
@@ -230,6 +230,13 @@ button {
 #keyworddiv {
   text-align:center;
   margin-top:20px;
+}
+
+
+/* img 관련 */
+.img {
+    width: 600px;
+	height: 600px;
 }
 #imgsmall {
   width: 400px; 
@@ -281,7 +288,7 @@ button {
 			<button onclick="location.href='board_edit.do?no=${dto.getBno()}&page=${pnk.getPage() }&keyword=${pnk.getKeyword() }'">
 				<img id="icon" src="resources/img/edit.png"></button>
 			<button onclick="if(confirm('정말로 게시글을 삭제하시겠습니까?')) {
-				location.href='board_delete.do?no=${dto.getBno()}&page=${pnk.getPage() }'
+				location.href='board_delete.do?no=${dto.getBno()}&page=${pnk.getPage() }&keyword=${pnk.getKeyword() }'
 				}else { return; }"><img id="icon" src="resources/img/bin.png"></button>
 		</c:if>
 			<button onclick="location.href='board_list.do?page=${pnk.getPage() }&keyword=${pnk.getKeyword() }'">
@@ -289,7 +296,7 @@ button {
 			
 			<div class="width">
 				<span style="color: #4078c0;">${dto.getBwriter() }</span>
-		        <span class="date2">${dto.getBdate() }</span>
+		        <span class="date">${dto.getBdate() }</span>
 		    </div>
             <p><img class="img" src="resources/upload/${dto.getBfile_name()}"></p>
             
@@ -298,7 +305,7 @@ button {
             	<tr>
             		<td style="text-align:left;"><span>${dto.getBtitle() }</span>
             		</td>
-            		<td width="43%">
+            		<td width="40%">
 		            	<span>
 		            	<img id="icon" src="resources/img/show.png">${dto.getBhit() }&nbsp;
 			        	<c:if test="${!empty id}">
@@ -319,11 +326,9 @@ button {
             	</tr>
             	<tr>
             		<td colspan="2" style="text-align:right;">
-            			<span class="date">
 		            	<c:if test="${!empty dto.getBredate() }">
 							${dto.getBredate() } 수정됨
 						</c:if>
-		            	</span>
             		</td>
             	</tr>
             </table>
@@ -361,9 +366,8 @@ button {
 		<textarea class="textarea2" readonly>${dto.getBcontent() }</textarea>
     </div>        
 			<div id="comment">
-				<div class="comments"><img id="icon" src="resources/img/comment.png"><span style="font-size:30px;margin-right: 50%;">Comments</span></div>
-				
-				<div class="loginplz">
+				<div class="commentlist"><img id="icon" src="resources/img/comment.png"><span style="font-size:30px;margin-right: 50%;">Comments</span></div>
+				<div class="commentlist">
 					<c:if test="${empty id }">
 							<a href="user_loginPage.do" class="btn sign-in">로그인</a>을 하시면 댓글을 등록할 수 있습니다.
 					</c:if>
@@ -522,6 +526,7 @@ $("#updatecomment"+no).hide();
     $.ajax({
             type : "POST",  
             url : "comment_update.do",
+            dataType : "json",
             data : $("#commentupdate").serialize(),
             error : function(){
                 alert("통신 에러","error","확인",function(){});
