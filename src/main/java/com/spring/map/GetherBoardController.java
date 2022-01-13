@@ -57,6 +57,7 @@ public class GetherBoardController {
 		// 페이지에 해당하는 게시물을 가져오는 메서드 호출
 		List<getherBoardDTO> pageList = this.dao.getBoardList(dto);
 		
+		model.addAttribute("secter", "마포구 전체");
 		model.addAttribute("id", id);
 		model.addAttribute("List", pageList);
 		model.addAttribute("Paging", dto);
@@ -382,6 +383,8 @@ public class GetherBoardController {
 			@RequestParam("page") int nowPage, 
 			Model model) {
 		
+		
+		
 		// 검색분류와 검색어에 해당하는 게시글의 수를 DB에서 확인하는 작업
 		totalRecord = this.dao.searchBoardCount(field, keyword);
 		
@@ -406,6 +409,39 @@ public class GetherBoardController {
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("page", 1);
 		
+		return "gether_board_list";
+	}
+	
+	@RequestMapping("gether_board_secter_list.do")
+	public String search(@RequestParam("secter") String secter,
+			@RequestParam("page") int nowPage, 
+			HttpServletResponse response,
+			Model model) {
+		
+		System.out.println("1번:"+secter);
+		
+		response.setContentType("text/html; charset=UTF-8");
+		
+		// 지역에 해당하는 게시글의 수를 DB에서 확인하는 작업
+		totalRecord = this.dao.secterBoardCount(secter);
+		
+		PageDTO dto = 
+				new PageDTO(nowPage, rowsize, totalRecord, secter);
+		
+		System.out.println("검색 게시물 수 >>> " + dto.getTotalRecord());
+		System.out.println("전체 페이지 수 >>> " + dto.getAllPage());
+		
+		// 한 페이지당 보여질 게시물의 수만큼 검색한 게시물을 List로 가져오는 메서드.
+		List<getherBoardDTO> searchList = this.dao.secterBoardList(dto);
+		
+		
+		// 리스트를 그대로 활용하기 위해서 gether_board_list.do와 같은 형식으로 전달
+		
+		model.addAttribute("List", searchList);		
+		model.addAttribute("Paging", dto);		
+		model.addAttribute("secter", secter);
+		model.addAttribute("page", 1);
+		System.out.println("2번:"+secter);
 		return "gether_board_list";
 	}
 	

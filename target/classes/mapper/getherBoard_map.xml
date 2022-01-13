@@ -157,4 +157,20 @@
 		resultType="com.spring.model.getherReplyDTO">
 		select * from map_gether_reply where rno=#{rno}
 	</select>
+	
+	<select id="gether_secter" resultType="int">
+		select count(*) from map_gether_board
+			where bsecter = #{secter}
+	</select>
+	
+	<select id="gether_secterList" parameterType="com.spring.model.PageDTO"
+				resultType="com.spring.model.getherBoardDTO">
+		<![CDATA[
+			select * from
+				(select b.*, row_number() 
+			   		over(order by bno desc) rnum from map_gether_board b
+			   		where bsecter = #{secter})	
+			   		where rnum >= #{startNo} and rnum <= #{endNo}
+		]]>
+	</select>
   </mapper>

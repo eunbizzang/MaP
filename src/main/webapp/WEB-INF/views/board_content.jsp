@@ -37,16 +37,10 @@ body {
 	font-family: 'Do Hyeon', sans-serif;
 	height:100%;
 }
-#body-wrapper {
-    min-height: 100%;
-    position: relative;
-}
 
 #body-content {
-    margin-top: 0px;
-    padding-bottom: 1800px; /* footer의 높이 */
     position: relative;
-    margin-left: 400px;
+    margin-left: 100px;
 }
 
 .img {
@@ -66,6 +60,11 @@ textarea {
 	margin-right : auto;
 	padding:20px;
 	float:left
+}
+.wrapperfortextarea {
+	width: 100%; 
+	text-align: center;/*중앙정렬*/
+	clear: both;
 }
 .leftboard {
 	width: 400px; 
@@ -105,6 +104,7 @@ textarea {
   margin-top:40px;
   padding:auto;
   text-align: center;/*중앙정렬*/
+  margin-left: 550px;
 }
 .commentlist {
   text-align: left;
@@ -147,10 +147,11 @@ button {
   margin-top: 20px;
   margin-bottom: 20px;
   font-size:25px;
+  
 }
 .textarea {
     padding: 10px;
-    width: 75%;
+    width: 42%;
     max-height: 100%;
     line-height: 1.5;
     border-radius: 3px;
@@ -158,6 +159,19 @@ button {
     box-shadow: 1px 1px 1px #999;
     font-family: 'Do Hyeon', sans-serif;
 	font-size: 23px;
+	margin-left: 492px;
+}
+.textarea2 {
+    padding: 10px;
+    width: 600px;
+    height: 150px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px #999;
+    font-family: 'Do Hyeon', sans-serif;
+	font-size: 23px;
+	margin-left: auto;
+	margin-right: auto;
 }
 .comtextarea {
     padding: 10px;
@@ -167,6 +181,7 @@ button {
     box-shadow: 1px 1px 1px #999;
     font-family: 'Do Hyeon', sans-serif;
 	font-size: 23px;
+	margin-left: 53px;
 }
 .comarea {
     padding: 10px;
@@ -224,6 +239,8 @@ button {
 #imgsmall:hover { 
   opacity: 1.0; 
 }
+
+
 </style>
 <title>Insert title here</title>
 </head>
@@ -277,12 +294,11 @@ button {
             <p><img class="img" src="resources/upload/${dto.getBfile_name()}"></p>
             
             <div class="title">
-            <table>
+            <table width="600px">
             	<tr>
             		<td style="text-align:left;"><span>${dto.getBtitle() }</span>
             		</td>
             		<td width="43%">
-		            	<span>
 		            	<span>
 		            	<img id="icon" src="resources/img/show.png">${dto.getBhit() }&nbsp;
 			        	<c:if test="${!empty id}">
@@ -299,22 +315,54 @@ button {
 				    	</c:if>
 				    	<img id="icon" style="margin-left:5px;" src="resources/img/comment.png">${dto.getReply_count() } 
 			        	</span>
-			        	<span class="date">
+            		</td>
+            	</tr>
+            	<tr>
+            		<td colspan="2" style="text-align:right;">
+            			<span class="date">
 		            	<c:if test="${!empty dto.getBredate() }">
 							${dto.getBredate() } 수정됨
 						</c:if>
-		            	</span>
 		            	</span>
             		</td>
             	</tr>
             </table>
             </div>
-            
-            <textarea rows="5" cols="30" class="textarea" readonly>${dto.getBcontent() }</textarea>
-            
+       </div>     
+
+	<div class="rightboard">
+		<c:set var="right" value="${rightboard }" />
+		<c:if test="${right eq null }">
+			<img id="icon" src="resources/img/close.png">
+		</c:if>
+		<c:if test="${right ne null}">
+			<a href="<%=request.getContextPath() %>/board_content.do?no=${right.getBno() }&page=${pnk.getPage() }&keyword=${pnk.getKeyword() }">
+			<img id="imgsmall" src="resources/upload/${right.getBfile_name()}"></a>
+			<div class="writer">${i.getBwriter() }</div>
+	        <div align="left"><span><img id="icon" src="resources/img/show.png">${right.getBhit() }&nbsp;
+			    <input type="hidden" name="bno" value="${right.getBno() }"></span>
+			    <span><img id="icon" src="resources/img/nolike.png">${right.getBlike()}</span>
+		        <span><img  style="margin-right:5px;"id="icon" src="resources/img/comment.png">${right.getReply_count() }</span>
+		    </div>
+		    <div>
+		        <table class="table">
+		        	<tr>
+		        		<td width="20%" class="grey">${right.getBwriter() }</td>
+		        		<td>${right.getBtitle() }</td>
+			           	<td width="35%" class="grey">${right.getBdate() }</td>
+			        </tr>
+		        </table>
+		    </div>
+		</c:if>
+	</div>
+	</div>
+	
+	<div class="wrapperfortextarea">
+		<textarea class="textarea2" readonly>${dto.getBcontent() }</textarea>
+    </div>        
 			<div id="comment">
-				<div class="comments"><img id="icon" src="resources/img/comment.png"><span style="font-size:30px;">Comments</span></div>
-				<hr width="78%" color="lightgrey">
+				<div class="comments"><img id="icon" src="resources/img/comment.png"><span style="font-size:30px;margin-right: 50%;">Comments</span></div>
+				
 				<div class="loginplz">
 					<c:if test="${empty id }">
 							<a href="user_loginPage.do" class="btn sign-in">로그인</a>을 하시면 댓글을 등록할 수 있습니다.
@@ -328,7 +376,7 @@ button {
 							<tr>
 								<td width="80%">
 									<input type="hidden" name="bno" value="${dto.getBno() }"/>
-									<div style="float: left;">
+									<div style="float: left;" class="textareaPosition">
 										<textarea class="comarea" name="content" placeholder="댓글을 입력하세요."></textarea>
 									</div>
 								</td>
@@ -405,35 +453,9 @@ button {
 				</c:forEach>  
 			</c:if>       
 		</div>
-	</div>
-	<div class="rightboard">
-		<c:set var="right" value="${rightboard }" />
-		<c:if test="${right eq null }">
-			<img id="icon" src="resources/img/close.png">
-		</c:if>
-		<c:if test="${right ne null}">
-			<a href="<%=request.getContextPath() %>/board_content.do?no=${right.getBno() }&page=${pnk.getPage() }&keyword=${pnk.getKeyword() }">
-			<img id="imgsmall" src="resources/upload/${right.getBfile_name()}"></a>
-			<div class="writer">${i.getBwriter() }</div>
-	        <div align="left"><span><img id="icon" src="resources/img/show.png">${right.getBhit() }&nbsp;
-			    <input type="hidden" name="bno" value="${right.getBno() }"></span>
-			    <span><img id="icon" src="resources/img/nolike.png">${right.getBlike()}</span>
-		        <span><img  style="margin-right:5px;"id="icon" src="resources/img/comment.png">${right.getReply_count() }</span>
-		    </div>
-		    <div>
-		        <table class="table">
-		        	<tr>
-		        		<td width="20%" class="grey">${right.getBwriter() }</td>
-		        		<td>${right.getBtitle() }</td>
-			           	<td width="35%" class="grey">${right.getBdate() }</td>
-			        </tr>
-		        </table>
-		    </div>
-		</c:if>
-	</div>
+	
 	</div>
 <jsp:include page="/resources/include/footer.jsp"/>
-</div>
 <script type="text/javascript">
 
 var bno = ${dto.getBno()};

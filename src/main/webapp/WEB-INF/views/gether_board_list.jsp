@@ -97,6 +97,24 @@ input {
 	font-size: 30px;
 	font-weight: bold;
 }
+		.test_obj input[type="radio"] {
+        display: none;
+        }
+ 
+    	.test_obj input[type="radio"] + span {
+        display: inline-block;
+        padding: 10px 5px;
+        border: 1px solid #dfdfdf;
+        background-color: #ffffff;
+        text-align: center;
+        cursor: pointer;
+        margin:3px;
+    	}
+ 
+    	.test_obj input[type="radio"]:checked + span {
+      	background-color: #57d2ff;
+      	color: #ffffff;
+    	}
 </style>
 </head>
 
@@ -109,6 +127,103 @@ input {
 		      <h2 class="board_title_font">함께해요</h2>
 		<br>
 		<div id="center">
+			<div>
+			<c:set var="dto" value="${Paging }" />
+				<label class="test_obj">
+					<input type="radio" name="bsecter" value="마포구 전체" 					
+						<c:if test="${secter.equals('마포구 전체') }"> checked </c:if>>
+    				<span><a href="gether_board_list.do">마포구 전체</a></span>
+				</label>
+				<label class="test_obj">
+					<input type="radio" name="bsecter" value="전체" 					
+						<c:if test="${secter.equals('전체') }"> checked </c:if>>
+    				<span><a href="gether_board_secter_list.do?page=${dto.getPage() }&secter=전체">전체</a></span>
+				</label>
+				<label class="test_obj">
+				    <input type="radio" name="bsecter" value="공덕동"				    
+						<c:if test="${secter.equals('공덕동') }"> checked </c:if>>
+    				<span><a href="gether_board_secter_list.do?page=${dto.getPage() }&secter=공덕동">공덕동</a></span>
+				</label>
+				<label class="test_obj">
+					<input type="radio" name="bsecter" value="대흥동"				
+						<c:if test="${secter.equals('대흥동') }"> checked </c:if>>
+    					<span><a href="gether_board_secter_list.do?page=${dto.getPage() }&secter=대흥동">대흥동</a></span>
+				</label>
+				<label class="test_obj">
+				    <input type="radio" name="bsecter" value="도화동"				    
+						<c:if test="${secter.equals('도화동') }"> checked </c:if>>
+    				<span><a href="gether_board_secter_list.do?page=${dto.getPage() }&secter=도화동">도화동</a></span>
+				</label>
+				<label class="test_obj">
+				    <input type="radio" name="bsecter" value="망원 1동"				    
+						<c:if test="${secter.equals('망원 1동') }"> checked </c:if>>
+    				<span><a href="gether_board_secter_list.do?page=${dto.getPage() }&secter=망원 1동">망원 1동</a></span>
+				</label>
+				<label class="test_obj">
+				    <input type="radio" name="bsecter" value="망원 2동"				    
+						<c:if test="${secter.equals('망원 2동') }"> checked </c:if>>
+    				<span><a href="gether_board_secter_list.do?page=${dto.getPage() }&secter=망원 2동">망원 2동</a></span>
+				</label>
+				<label class="test_obj">
+				    <input type="radio" name="bsecter" value="상암동"				    	
+				    	<c:if test="${secter.equals('상암동') }"> checked </c:if>>
+    				<span><a href="gether_board_secter_list.do?page=${dto.getPage() }&secter=상암동">상암동</a></span>
+				</label>
+				<label class="test_obj">
+				    <input type="radio" name="bsecter" value="서강동"				    
+						<c:if test="${secter.equals('서강동') }"> checked </c:if>>
+    				<span><a href="gether_board_secter_list.do?page=${dto.getPage() }&secter=서강동">서강동</a></span>
+				</label>
+				
+				<br>
+				
+				<label class="test_obj">
+				    <input type="radio" name="bsecter" value="서교동"				    
+						<c:if test="${secter.equals('서교동') }"> checked </c:if>>
+    				<span><a href="gether_board_secter_list.do?page=${dto.getPage() }&secter=서교동">서교동</a></span>
+				</label>
+				<label class="test_obj">
+				    <input type="radio" name="bsecter" value="성산 1동"				    
+						<c:if test="${secter.equals('성산 1동') }"> checked </c:if>>
+    				<span><a href="gether_board_secter_list.do?page=${dto.getPage() }&secter=성산 1동">성산 1동</a></span>
+				</label>
+				<label class="test_obj">
+				    <input type="radio" name="bsecter" value="성산 2동"
+				    	<c:if test="${secter.equals('성산 2동') }"> checked </c:if>>
+    				<span><a href="gether_board_secter_list.do?page=${dto.getPage() }&secter=성산 2동">성산 2동</a></span>
+				</label>
+				<label class="test_obj">
+				    <input type="radio" name="bsecter" value="신수동"				    
+						<c:if test="${secter.equals('신수동') }"> checked </c:if>>
+    				<span><a href="gether_board_secter_list.do?page=${dto.getPage() }&secter=신수동">신수동</a></span>
+				</label>
+				<label class="test_obj">
+				    <input type="radio" name="bsecter" value="아현동"				    
+						<c:if test="${secter.equals('아현동') }"> checked </c:if>>
+    				<span><a href="gether_board_secter_list.do?page=${dto.getPage() }&secter=아현동">아현동</a></span>
+				</label>
+				<label class="test_obj">
+				    <input type="radio" name="bsecter" value="연남동"				    
+						<c:if test="${secter.equals('연남동') }"> checked </c:if>>
+    				<span><a href="gether_board_secter_list.do?page=${dto.getPage() }&secter=연남동">연남동</a></span>
+				</label>
+				<label class="test_obj">
+					<input type="radio" name="bsecter" value="염리동"					
+						<c:if test="${secter.equals('염리동') }"> checked </c:if>>
+    				<span><a href="gether_board_secter_list.do?page=${dto.getPage() }&secter=염리동">염리동</a></span>
+				</label>
+				<label class="test_obj">
+				    <input type="radio" name="bsecter" value="용강동"				    
+						<c:if test="${secter.equals('용강동') }"> checked </c:if>>
+    				<span><a href="gether_board_secter_list.do?page=${dto.getPage() }&secter=용강동">용강동</a></span>
+				</label>				
+				<label class="test_obj">
+				    <input type="radio" name="bsecter" value="합정동"				    
+						<c:if test="${secter.equals('합정동') }"> checked </c:if>>
+    				<span><a href="gether_board_secter_list.do?page=${dto.getPage() }&secter=합정동">합정동</a></span>
+				</label>
+			</div>
+		
 		
 			<c:if test="${!empty id }">
 				<input type="button" value="글쓰기" class="btn btn-outline-dark"

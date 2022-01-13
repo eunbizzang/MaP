@@ -162,40 +162,12 @@ th {
     								<span>공덕동</span>
 								</label>
 								<label class="test_obj">
-								    <input type="radio" name="bsecter" value="아현동">
-    								<span>아현동</span>
-								</label>
-								<label class="test_obj">
-								    <input type="radio" name="bsecter" value="도화동">
-    								<span>도화동</span>
-								</label>
-								<label class="test_obj">
-								    <input type="radio" name="bsecter" value="용강동">
-    								<span>용강동</span>
-								</label>
-								<label class="test_obj">
 								    <input type="radio" name="bsecter" value="대흥동">
     								<span>대흥동</span>
 								</label>
 								<label class="test_obj">
-								    <input type="radio" name="bsecter" value="염리동">
-    								<span>염리동</span>
-								</label>
-								<label class="test_obj">
-								    <input type="radio" name="bsecter" value="신수동">
-    								<span>신수동</span>
-								</label>
-								<label class="test_obj">
-								    <input type="radio" name="bsecter" value="서강동">
-    								<span>서강동</span>
-								</label>
-								<label class="test_obj">
-								    <input type="radio" name="bsecter" value="서교동">
-    								<span>서교동</span>
-								</label>
-								<label class="test_obj">
-								    <input type="radio" name="bsecter" value="합정동">
-    								<span>합정동</span>
+								    <input type="radio" name="bsecter" value="도화동">
+    								<span>도화동</span>
 								</label>
 								<label class="test_obj">
 								    <input type="radio" name="bsecter" value="망원 1동">
@@ -206,8 +178,16 @@ th {
     								<span>망원 2동</span>
 								</label>
 								<label class="test_obj">
-								    <input type="radio" name="bsecter" value="연남동">
-    								<span>연남동</span>
+								    <input type="radio" name="bsecter" value="상암동">
+    								<span>상암동</span>
+								</label>
+								<label class="test_obj">
+								    <input type="radio" name="bsecter" value="서강동">
+    								<span>서강동</span>
+								</label>
+								<label class="test_obj">
+								    <input type="radio" name="bsecter" value="서교동">
+    								<span>서교동</span>
 								</label>
 								<label class="test_obj">
 								    <input type="radio" name="bsecter" value="성산 1동">
@@ -218,8 +198,28 @@ th {
     								<span>성산 2동</span>
 								</label>
 								<label class="test_obj">
-								    <input type="radio" name="bsecter" value="상암동">
-    								<span>상암동</span>
+								    <input type="radio" name="bsecter" value="신수동">
+    								<span>신수동</span>
+								</label>
+								<label class="test_obj">
+								    <input type="radio" name="bsecter" value="아현동">
+    								<span>아현동</span>
+								</label>
+								<label class="test_obj">
+								    <input type="radio" name="bsecter" value="연남동">
+    								<span>연남동</span>
+								</label>
+								<label class="test_obj">
+								    <input type="radio" name="bsecter" value="염리동">
+    								<span>염리동</span>
+								</label>
+								<label class="test_obj">
+								    <input type="radio" name="bsecter" value="용강동">
+    								<span>용강동</span>
+								</label>
+								<label class="test_obj">
+								    <input type="radio" name="bsecter" value="합정동">
+    								<span>합정동</span>
 								</label>
 							</td>
 						</tr>

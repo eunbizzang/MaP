@@ -67,6 +67,9 @@ public class getherBoardDAOImpl implements getherBoardDAO {
 
 	}
 
+	
+	
+	// 검색 부분
 	@Override
 	public int searchBoardCount(String field, String keyword) {
 
@@ -89,6 +92,17 @@ public class getherBoardDAOImpl implements getherBoardDAO {
 		
 	}
 
+	// 지역 부분
+	@Override
+	public int secterBoardCount(String secter) {
+		return this.sqlSession.selectOne("gether_secter", secter);
+	}
+
+	@Override
+	public List<getherBoardDTO> secterBoardList(PageDTO dto) {
+		return this.sqlSession.selectList("gether_secterList", dto);
+	}
+	
 	
 	// 댓글 부분
 	
@@ -126,5 +140,7 @@ public class getherBoardDAOImpl implements getherBoardDAO {
 	public getherReplyDTO getReply(int rno) {
 		return this.sqlSession.selectOne("gether_oneReply", rno);
 	}
+
+	
 
 }

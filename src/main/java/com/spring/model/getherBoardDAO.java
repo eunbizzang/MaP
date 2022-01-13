@@ -16,10 +16,14 @@ public interface getherBoardDAO {
 	public getherBoardDTO boardCont(int no);
 	public int updateBoard(getherBoardDTO dto);
 	
-	
+	//검색 관련
 	public int searchBoardCount(String field, String keyword);
-	
 	public List<getherBoardDTO> searchBoardList(PageDTO dto);
+	
+	//지역 관련
+	public int secterBoardCount(String secter);
+	public List<getherBoardDTO> secterBoardList(PageDTO dto);
+	
 	
 	//댓글 관련 메서드
 	public List<getherReplyDTO> getReplyList(int mno);

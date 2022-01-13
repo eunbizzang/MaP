@@ -21,6 +21,9 @@ public class PageDTO {
 	private String field;
 	private String keyword;
 	
+	// 지역 관련 멤버 선언
+	private String secter;
+	
 	public PageDTO() {  }   // 기본 생성자
 	
 	
@@ -56,6 +59,12 @@ public class PageDTO {
 		this(page, rowsize, totalRecord);
 		this.field = field;
 		this.keyword = keyword;
+	}   // 인자 생성자
+
+	public PageDTO(int page, int rowsize, int totalRecord,
+			String secter) {
+		this(page, rowsize, totalRecord);
+		this.secter = secter;
 	}   // 인자 생성자
 	
 }

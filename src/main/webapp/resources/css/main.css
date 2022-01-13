@@ -67,8 +67,8 @@
 
 /**우리 동네에 있는 사람들과 소통하고싶다면 intro**/
 .section--intro .img {
-    background-image: url("../img/main/main1.png");
-    background-size: 526px 735px;
+    background-image: url("../img/main/getherMain.png");   
+    background-repeat: no-repeat;
     width: 526px;
     height: 519px;
 }

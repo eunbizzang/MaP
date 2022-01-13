@@ -31,48 +31,70 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/footer.css"/>	
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>	
 <style>
-.img {
-    width: 450px;
-	height: 450px;
-}
-textarea {
-  box-sizing: border-box;
-  resize: both;
-}
 .wrapper {
 	width: 600px; height:670px;
 	text-align: center;/*중앙정렬*/
 	margin-top : 50px;
-	margin-bottom : 10px;
+	margin-bottom : 30px;
 	margin-left : auto;
 	margin-right : auto;
 	padding:20px;
 }
-#icon {
-  width:15px;
-  height:15px;
+#iconb {
   margin-right: 5px;
+  background: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+#icon {
+  width: 32px;
+  height: 32px;
 }
 #bigicon {
   width:30px;
   height:30px;
   margin-right: 5px;
 }
-button {
-	background: url( "resources/img/bin.png" ) no-repeat;
-    border: none;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
+textarea {
+  width: 80%;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px #999;
+  font-family: 'Do Hyeon', sans-serif;
+  font-size: 20px;
+  margin-top:10px;
+  margin-bottom:10px;
 }
 .img {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     margin: 0.2em -0.7em 0 0;
 }
 .thumb {
     width: 200px;
     margin: 0.2em -0.7em 0 0;
+}
+.input {
+  border: solid 1px lightgrey;
+  border-radius: 4px;
+  width: 80%;
+  height: 18px;
+  padding:10px;
+  margin-bottom:20px;
+  margin-left: 10px; 
+  font-family: 'Do Hyeon', sans-serif;
+  font-size: 20px;
+}
+.iminput {
+  width: 80%;
+  height: 100%;
+  padding:10px;
+  margin-bottom:20px;
+  margin-left: 10px; 
+  font-family: 'Do Hyeon', sans-serif;
+  font-size: 20px;
 }
 </style>
 <title>Insert title here</title>
@@ -83,30 +105,30 @@ button {
 	<div class="wrapper">
 		<c:set var="dto" value="${Cont }" />
 			
-	    <table border="1" cellspacing="0" width="600">
+	    <table border="1" cellspacing="0" width="600" style="margin-bottom:30px;">
 	      	<tr>
 	      		<td>
 	      			
 	      		</td>
 	            <td align="right">
-	            	<button onclick="window.location.reload()"><img id="icon" src="resources/img/flash.png"></button>
-	            	<button onclick="location.href='board_content.do?no=${dto.getBno()}&page=${page }&keyword=${keyword }'">
+	            	<button id="iconb" onclick="window.location.reload()"><img id="icon" src="resources/img/flash.png"></button>
+	            	<button id="iconb" onclick="location.href='board_content.do?no=${dto.getBno()}&page=${page }&keyword=${keyword }'">
 					<img id="icon" src="resources/img/return.png"></button>
 	            </td>
 	         </tr>
 	    </table>
 	    <form action="<%=request.getContextPath() %>/board_edit_ok.do?page=${page }&keyword=${keyword }" method="post" enctype="multipart/form-data">
-	    	<input type="hidden" name="bno" value="${dto.getBno() }">
-	    	<input type="hidden" name="bfile_name" value="${dto.getBfile_name() }">
+	    	<input class="input" type="hidden" name="bno" value="${dto.getBno() }">
+	    	<input class="input" type="hidden" name="bfile_name" value="${dto.getBfile_name() }">
 	    <table border="1" cellspacing="0" width="600">     
 	         <tr>
 	            <td>Writer</td>
-	            <td> <input name="bwriter" value="${dto.getBwriter()}" readonly> </td>
+	            <td> <input class="input" name="bwriter" value="${dto.getBwriter()}" readonly> </td>
 	         </tr>
 	         
 	         <tr>
 	            <td width="15%">Title</td>
-	            <td> <input name="btitle" value="${dto.getBtitle() }" required> </td>
+	            <td> <input class="input" name="btitle" value="${dto.getBtitle() }" required> </td>
 	         </tr>
 	         
 	         <tr>
@@ -119,7 +141,7 @@ button {
 	         <tr>
 	            <td width="15%">Image</td>
 	            <td>
-					<input type="file" name="uploadFile"  id="file" accept="image/*">
+					<input class="iminput" type="file" name="uploadFile"  id="file" accept="image/*">
 				</td>
 	         </tr>
 	         <tr>
@@ -130,7 +152,7 @@ button {
 	         </tr>
 	         <tr>
 	         	<td colspan="2">
-	         	<input type="image" id="bigicon" src="resources/img/write.png" value="">
+	         	<input class="input" type="image" id="bigicon" src="resources/img/write.png" value="">
 	         	</td>
 	         </tr>
 	      </table>

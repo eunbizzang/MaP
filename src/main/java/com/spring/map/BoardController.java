@@ -399,47 +399,8 @@ public class BoardController {
 			System.out.println("수정실패");
 		}
 		
-		// 게시글 상세 내역 조회하는 메서드 호출
-		BoardDTO bdto = this.dao.boardCont(dto.getBno());
-						
-		// 게시글 댓글 내역 조회하는 메서드 호출
-		List<ReviewReplyDTO> rdto = this.dao.replyList(dto.getBno());
 		
-		// 세션정보 받아오기
-		HttpSession session = request.getSession();
-		String id = (String) session.getAttribute("id");		
-						
-		// 좋아요 확인을 위한 데이터 저장
-		ReviewLikeDTO likedto = new ReviewLikeDTO();
-		likedto.setBno(bdto.getBno());
-		likedto.setId(id);
-								
-		// 게시글 좋아요 확인하는 메서드 호출
-		
-		int testlike = this.dao.selectLike(likedto);
-		
-		model.addAttribute("liked", testlike);
-		
-		BoardDTO leftboard = null;
-		BoardDTO rightboard = null;
-		
-		// 전글 후글 게시글 데이터 설정
-		leftboard = this.dao.getLeftBoard(dto.getBno());
-		rightboard = this.dao.getRightBoard(dto.getBno());
-		
-		model.addAttribute("leftboard", leftboard);
-		
-		model.addAttribute("rightboard", rightboard);
-		
-		model.addAttribute("Cont", bdto);
-				
-		model.addAttribute("rlist", rdto);
-				
-		model.addAttribute("page", nowPage);
-				
-		model.addAttribute("keyword", keyword);
-				
-		return "board_content";
+		return "forward:board_content.do?no="+dto.getBno()+"&page="+nowPage+"&keyword"+keyword;
 	}
 	
 	@RequestMapping("comment_insert.do")
@@ -453,47 +414,8 @@ public class BoardController {
 		// 댓글수 증가시키는 메서드 호출
 		this.dao.commentCount(dto.getBno());
 				
-		// 게시글 상세 내역 조회하는 메서드 호출
-		BoardDTO bdto = this.dao.boardCont(dto.getBno());
-				
-		// 게시글 댓글 내역 조회하는 메서드 호출
-		List<ReviewReplyDTO> rdto = this.dao.replyList(dto.getBno());
-				
-		// 세션정보 받아오기
-		HttpSession session = request.getSession();
-		String id = (String) session.getAttribute("id");		
 		
-		// 좋아요 확인을 위한 데이터 저장
-		ReviewLikeDTO likedto = new ReviewLikeDTO();
-		likedto.setBno(bdto.getBno());
-		likedto.setId(id);
-				
-		// 게시글 좋아요 확인하는 메서드 호출
-
-		int testlike = this.dao.selectLike(likedto);
-		
-		model.addAttribute("liked", testlike);
-		 
-		BoardDTO leftboard = null;
-		BoardDTO rightboard = null;
-		
-		// 전글 후글 게시글 데이터 설정
-		leftboard = this.dao.getLeftBoard(dto.getBno());
-		rightboard = this.dao.getRightBoard(dto.getBno());
-		
-		model.addAttribute("leftboard", leftboard);
-		
-		model.addAttribute("rightboard", rightboard);
-		
-		model.addAttribute("Cont", bdto);
-		
-		model.addAttribute("rlist", rdto);
-		
-		model.addAttribute("page", nowPage);
-		
-		model.addAttribute("keyword", keyword);
-		
-		return "board_content";
+		return "forward:board_content.do?no="+dto.getBno()+"&page="+nowPage+"&keyword"+keyword;
 	}
 	@RequestMapping("comment_delete.do")
 	public String commentDelete(@RequestParam("bno") int bno, @RequestParam("no") int no, HttpServletRequest request,
@@ -504,95 +426,18 @@ public class BoardController {
 		
 		// 댓글수 감소시키는 메서드 호출
 		this.dao.commentDown(bno);
-		
-		// 게시글 상세 내역 조회하는 메서드 호출
-		BoardDTO bdto = this.dao.boardCont(bno);
 				
-		// 게시글 댓글 내역 조회하는 메서드 호출
-		List<ReviewReplyDTO> rdto = this.dao.replyList(bno);
-				
-		// 세션정보 받아오기
-		HttpSession session = request.getSession();
-		String id = (String) session.getAttribute("id");		
-				
-		// 좋아요 확인을 위한 데이터 저장
-		ReviewLikeDTO likedto = new ReviewLikeDTO();
-		likedto.setBno(bdto.getBno());
-		likedto.setId(id);
-						
-		// 게시글 좋아요 확인하는 메서드 호출
-		int testlike = this.dao.selectLike(likedto);
-				
-		model.addAttribute("liked", testlike);
 		
-		BoardDTO leftboard = null;
-		BoardDTO rightboard = null;
-		
-		// 전글 후글 게시글 데이터 설정
-		leftboard = this.dao.getLeftBoard(bno);
-		rightboard = this.dao.getRightBoard(bno);
-		
-		model.addAttribute("leftboard", leftboard);
-		
-		model.addAttribute("rightboard", rightboard);
-		
-		model.addAttribute("Cont", bdto);
-		
-		model.addAttribute("rlist", rdto);
-		
-		model.addAttribute("page", nowPage);
-		
-		model.addAttribute("keyword", keyword);
-		
-		return "board_content";
+		return "forward:board_content.do?no="+bno+"&page="+nowPage+"&keyword"+keyword;
 	}
 	
 	@RequestMapping("comment_update.do")
-	public String commentUpdate(ReviewReplyDTO dto, @RequestParam("bno") int bno, HttpServletRequest request,
-			@RequestParam("page") int nowPage, @RequestParam("keyword")String keyword, Model model) {
+	public String commentUpdate(ReviewReplyDTO dto, @RequestParam("bno") int bno,
+			@RequestParam("page") int nowPage, @RequestParam("keyword")String keyword) {
 	
 		// 댓글 수정 메서드 호출
-		int result = this.dao.replyUpdate(dto);
-		
-		// 게시글 상세 내역 조회하는 메서드 호출
-		BoardDTO bdto = this.dao.boardCont(bno);
-						
-		// 게시글 댓글 내역 조회하는 메서드 호출
-		List<ReviewReplyDTO> rdto = this.dao.replyList(bno);
-						
-		// 세션정보 받아오기
-		HttpSession session = request.getSession();
-		String id = (String) session.getAttribute("id");		
-						
-		// 좋아요 확인을 위한 데이터 저장
-		ReviewLikeDTO likedto = new ReviewLikeDTO();
-		likedto.setBno(bdto.getBno());
-		likedto.setId(id);
-								
-		// 게시글 좋아요 확인하는 메서드 호출
-		int testlike = this.dao.selectLike(likedto);
-						
-		model.addAttribute("liked", testlike);
-		
-		BoardDTO leftboard = null;
-		BoardDTO rightboard = null;
-		
-		// 전글 후글 게시글 데이터 설정
-		leftboard = this.dao.getLeftBoard(bno);
-		rightboard = this.dao.getRightBoard(bno);
-		
-		model.addAttribute("leftboard", leftboard);
-		
-		model.addAttribute("rightboard", rightboard);
-		
-		model.addAttribute("Cont", bdto);
+		this.dao.replyUpdate(dto);
 				
-		model.addAttribute("rlist", rdto);
-				
-		model.addAttribute("page", nowPage);
-				
-		model.addAttribute("keyword", keyword);
-				
-		return "board_content";
+		return "forward:board_content.do?no="+bno+"&page="+nowPage+"&keyword"+keyword;
 	}
 }
