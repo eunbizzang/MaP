@@ -138,7 +138,8 @@ function saveid() {
 <style type="text/css">
 .userid, .userpwd {
 	margin: 10px 10px 15px 10px;
-	padding: 30px 240px 30px 40px;
+	width: 26%;
+	padding: 30px 27px 30px 27px;
 	border: 1px solid lightgrey;
 	font-size: 22px;
 	text-align: left;
@@ -146,9 +147,13 @@ function saveid() {
 }
 
 .findid, .findpwd {
-	font-size: 19px;
+	font-size: 21px;
 	color: black;
 	text-decoration: none;
+}
+
+.findid {
+	margin: 0px 0px 0px 50px;
 }
 
 .login {
@@ -188,8 +193,8 @@ input::placeholder {
 }
 
 .checkbox {
-	width: 23px;
-	height: 23px;
+	width: 20px;
+	height: 20px;
 }
 
 .label {

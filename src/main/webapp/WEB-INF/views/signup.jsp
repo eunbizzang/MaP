@@ -308,7 +308,7 @@
 <style type="text/css">
 .input {
 	margin: 5px 10px 25px 130px;
-	padding: 15px 300px 15px 20px;
+	padding: 15px 343px 15px 20px;
 	border: 1px solid lightgrey;
 	font-size: 22px;
 	text-align: left;
@@ -317,7 +317,7 @@
 
 .input1 {
 	margin: 5px 10px 0px 130px;
-	padding: 15px 300px 15px 20px;
+	padding: 15px 343px 15px 20px;
 	border: 1px solid lightgrey;
 	font-size: 22px;
 	text-align: left;
@@ -326,7 +326,7 @@
 
 .id_input {
 	margin: 5px 10px 3px 130px;
-	padding: 15px 300px 15px 20px;
+	padding: 15px 343px 15px 20px;
 	border: 1px solid lightgrey;
 	font-size: 22px;
 	text-align: left;
@@ -335,7 +335,7 @@
 
 .input2 {
 	margin: 5px 10px 5px 130px;
-	width: 555px;
+	width: 542px;
 	padding: 16px;
 	border: 1px solid lightgrey;
 	font-size: 22px;
@@ -351,7 +351,7 @@
 
 .zipcode {
 	margin: 5px 17px 5px 130px;
-	padding: 15px 137px 15px 20px;
+	padding: 15px 182px 15px 20px;
 	border: 1px solid lightgrey;
 	font-size: 22px;
 	text-align: left;
@@ -359,7 +359,7 @@
 }
 
 .search {
-	padding: 14px 25px 14px 25px;
+	padding: 14px 32px 15px 32px;
 	background-color: white;
 	border: 1px solid #8bdeff;
 	border-radius: 5px;
@@ -369,7 +369,7 @@
 }
 
 .confirm {
-	padding: 13px 25px 14px 25px;
+	padding: 16px 33px 17px 33px;
 	background-color: white;
 	border: 1px solid #8bdeff;
 	border-radius: 5px;
@@ -414,10 +414,12 @@ input::placeholder {
 
 .ta {
 	margin: 0px 0px 0px 130px;
+	padding: 0px 70px 10px 0px;
 }
 
 .ta1 {
 	margin: 0px 0px 0px 125px;
+	width: 81%;
 }
 
 .ta2 {
@@ -449,6 +451,13 @@ ul {
 
 textarea {
 	font-family: 'Do Hyeon', sans-serif;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
 }
 </style>
 </head>
