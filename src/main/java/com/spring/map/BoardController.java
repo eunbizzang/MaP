@@ -49,19 +49,24 @@ public class BoardController {
 	
 	@RequestMapping("board_list.do")
 	public String list(HttpServletRequest request, Model model) {
-		String keyword;
+		String keyword;	// 키워드 변수
 		int page;  // 현재 페이지 변수
 		
+		// 검색 키워드 확인
 		if(request.getParameter("keyword") != null) {
+			// 넘어온 검색 키워드 값이 있을 경우, keyword 변수에 저장 
 			keyword = request.getParameter("keyword");
 		}else {
+			// 없을 경우 null을 저장
 			keyword = null;
 		}
 		
-        
+        // 넘어온 페이지 변수가 있는지 확인
 		if(request.getParameter("page") != null) {
+			// 넘어온 페이지 값이 있을 경우, page변수에 저장.
 			page = Integer.parseInt(request.getParameter("page"));
 		}else {
+			// 넘어온 값이 없을 경우, 1을 저장.
 			page = 1;  // 처음으로 게시물목록 태그를 클릭한 경우
 		}
 		
@@ -72,12 +77,13 @@ public class BoardController {
 		if(session.getAttribute("id") !=null) {
 			id = (String) session.getAttribute("id");	
 		}
+		
 		// 검색키워드 없는 경우
 		if(keyword==null) {
 			
 			// DB 상의 전체 게시물의 수를 확인하는 작업
 			totalRecord = this.dao.getListCount();
-			
+			// 페이징처리
 			PageDTO dto = new PageDTO(page, rowsize, totalRecord);
 					
 			// 페이지에 해당하는 게시물을 가져오는 메서드 호출
