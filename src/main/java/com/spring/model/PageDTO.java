@@ -15,7 +15,7 @@ public class PageDTO {
 	private int startBlock;          // 해당 페이지에서 시작 블럭
 	private int endBlock;            // 해당 페이지에서 마지막 블럭
 	private int allPage;             // 전체 페이지 수
-	private int block = 10;           // 아래에 보여질 페이지 최대 수
+	private int block = 10;          // 아래에 보여질 페이지 최대 수
 	
 	// 검색 관련 멤버 선언
 	private String field;
@@ -54,6 +54,7 @@ public class PageDTO {
 	}   // 인자 생성자
 	
 	
+	// 키워드가 있는 경우
 	public PageDTO(int page, int rowsize, int totalRecord,
 			String field, String keyword) {
 		this(page, rowsize, totalRecord);
@@ -61,6 +62,7 @@ public class PageDTO {
 		this.keyword = keyword;
 	}   // 인자 생성자
 
+	// 키워드가 없는 경우
 	public PageDTO(int page, int rowsize, int totalRecord,
 			String secter) {
 		this(page, rowsize, totalRecord);

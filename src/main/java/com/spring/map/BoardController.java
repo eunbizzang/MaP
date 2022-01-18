@@ -49,6 +49,7 @@ public class BoardController {
 	
 	@RequestMapping("board_list.do")
 	public String list(HttpServletRequest request, Model model) {
+		
 		String keyword;	// 키워드 변수
 		int page;  // 현재 페이지 변수
 		
@@ -128,14 +129,11 @@ public class BoardController {
 		}else {
 
 			System.out.println("검색한 키워드 >>>" + keyword);
-			
 			// DB 상의 전체 게시물의 수를 확인하는 작업(with keyword)
 			totalRecord = this.dao.getKListCount(keyword);
-			System.out.println(totalRecord);
 			
 			// 페이징 처리 (with keyword)
 			PageDTO dto = new PageDTO(page, rowsize, totalRecord, "", keyword);
-			System.out.println(dto.getKeyword());
 			
 			// 페이지에 해당하는 게시물을 가져오는 메서드 호출(with keyword)
 			List<BoardDTO> pageList = this.dao.getKBoardList(dto);
