@@ -125,10 +125,9 @@ public class BoardController {
 			// 페이징 정보
 			model.addAttribute("Paging", dto);
 			System.out.println("keyword>>>" + dto.getKeyword());
+			
 		// 검색 키워드 값이 있는 경우
 		}else {
-
-			System.out.println("검색한 키워드 >>>" + keyword);
 			// DB 상의 전체 게시물의 수를 확인하는 작업(with keyword)
 			totalRecord = this.dao.getKListCount(keyword);
 			
@@ -188,10 +187,12 @@ public class BoardController {
 	public String uploadForm(BoardDTO dto) throws Exception {
 		
 		if(!dto.getUploadFile().isEmpty()) {
+			// 파일이 있는 경우
 			String savedName = dto.getUploadFile().getOriginalFilename();
 			savedName = uploadFile(savedName, dto.getUploadFile().getBytes());
 			dto.setBfile_name( year + "-" + month + "-" + day + "/" +savedName);
 		}else {
+			// 파일이 없는 경우
 			dto.setBfile_name("");
 		}
 		
