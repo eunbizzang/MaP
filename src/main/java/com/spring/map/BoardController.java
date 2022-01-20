@@ -180,7 +180,7 @@ public class BoardController {
 	
 	@RequestMapping(value="/board_writeForm", method=RequestMethod.GET)
 	public void boardwriteForm() {
-		// board_writeForm으로 포워딩
+	// board_writeForm으로 포워딩
 	}
 	
 	@RequestMapping(value="/board_writeForm",produces = "text/plain;charset=UTF-8", method=RequestMethod.POST)
@@ -195,9 +195,10 @@ public class BoardController {
 			// 파일이 없는 경우
 			dto.setBfile_name("");
 		}
-		
+		// 게시물을 입력하는 메서드 호출
 		this.dao.insertBoard(dto);
 		
+		// 리스트페이지로 이동
 		return "redirect:/board_list.do";
 	}
 	
